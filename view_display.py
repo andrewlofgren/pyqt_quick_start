@@ -8,7 +8,8 @@ class MainWidget(QtWidgets.QWidget):
 
         #
         # Pass in the controller because we'll need some information from it
-        # in order to draw the Mandelbrot Set. In the past I've passed in the
+        # in order to draw whatever non-trivial thing we want to eventual draw
+        # in stead of those lines. In the past I've passed in the
         # whole app, but I don't think I need all that (could be wrong).
         #
         self.controller = controller

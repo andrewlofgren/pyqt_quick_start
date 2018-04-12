@@ -133,7 +133,7 @@ class MyApplication(QtWidgets.QMainWindow):
                                               triggered=self.save_as)
 
         self.aboutAction = QtWidgets.QAction("&About", self,
-                                             statusTip="More information about the Mandelbrot Set",
+                                             statusTip="More information about the program",
                                              triggered=self.about)
 
         #
@@ -216,7 +216,7 @@ class MyApplication(QtWidgets.QMainWindow):
 
     def about(self):
         self.controller.about()
-        QtWidgets.QMessageBox.about(self, "Mandelbrot Set",
+        QtWidgets.QMessageBox.about(self, "My Program",
                                     "I should <b>probably</b> put some "
                                     "real text in here.")
 
