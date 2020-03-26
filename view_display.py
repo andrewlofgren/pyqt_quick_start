@@ -1,3 +1,4 @@
+import model
 import sys, random
 from PyQt5 import QtGui, QtCore, QtWidgets, QtMultimedia
 
@@ -17,8 +18,9 @@ class MainWidget(QtWidgets.QWidget):
         #
         # If you are going to use a timer, create one. Oh, and look up timers.
         #
-        self.timer = QtCore.QBasicTimer()
-        self.timer.stop()
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.update)
+        self.timer.start(1000)
 
         #
         # I'm not actually sure why I thought this was a good idea.
@@ -45,7 +47,14 @@ class MainWidget(QtWidgets.QWidget):
         # This is an example of connecting a widget (slider) to an instance variable. It is
         # only for drawing the lines in this example. You won't need it.
         #
-        self.lines = 50
+        self.lines = 5
+
+        #
+        # An instance variable that I will need when I draw.
+        #
+        self.roamer = model.Roamer(self.lines)
+
+
 
 
     def paintEvent(self, event):
@@ -60,7 +69,6 @@ class MainWidget(QtWidgets.QWidget):
         # Set Background
         #
         painter.drawPixmap(rectangle, self.background, rectangle)
-
         #
         # If we were drawing on an image, we would need to do some resizing
         # stuff like this. We will do this eventually.
@@ -72,7 +80,7 @@ class MainWidget(QtWidgets.QWidget):
         #
         # Do any drawing that you need to do next.
         #
-        self.draw_random_lines(painter)
+        self.draw_roaming_lines(painter)
 
     def keyPressEvent(self, event):
         """
@@ -95,29 +103,24 @@ class MainWidget(QtWidgets.QWidget):
         else:
             print('down')
 
-    def draw_random_lines(self, painter):
-        width = self.width()
-        height = self.height()
-        for x in range(self.lines):
-            x1 = random.randint(0, width)
-            y1 = random.randint(0, height)
-            x2 = random.randint(0, width)
-            y2 = random.randint(0, height)
-
+    def draw_roaming_lines(self, painter):
+        self.roamer.advance()
+        for line in self.roamer.lines:
             #
             # Just your normal HTML color codes. Look them up.
             #
-            red = random.choice(['ff', 'dd', '99', '66', '33', '00'])
-            green = random.choice(['ff', 'dd', '99', '66', '33', '00'])
-            blue = random.choice(['ff', 'dd', '99', '66', '33', '00'])
+            red = 'ff' #random.choice(['ff', 'dd', '99', '66', '33', '00'])
+            green = 'ff' #random.choice(['ff', 'dd', '99', '66', '33', '00'])
+            blue = 'ff' #random.choice(['ff', 'dd', '99', '66', '33', '00'])
             color = QtGui.QColor('#' + red + green + blue)
-            penWidth = 1
+            penWidth = 2
             pen = QtGui.QPen(color, penWidth)
             painter.setPen(pen)
-            painter.drawLine(x1, y1, x2, y2)
+            painter.drawLine(line.start.x, line.start.y, line.end.x, line.end.y)
+
 
     def set_lines(self, lines):
-        self.lines = lines
+        self.roamer.set_line(lines)
         self.update()
 
     def mousePressEvent(self, event):
