@@ -20,7 +20,7 @@ class MainWidget(QtWidgets.QWidget):
         #
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.update)
-        self.timer.start(1000)
+        self.timer.start(100)
 
         #
         # I'm not actually sure why I thought this was a good idea.
@@ -104,7 +104,11 @@ class MainWidget(QtWidgets.QWidget):
             print('down')
 
     def draw_roaming_lines(self, painter):
-        self.roamer.advance()
+        x1, y1, = self.geometry().bottomLeft().x(), self.geometry().bottomLeft().y()
+        x2, y2 = self.geometry().topRight().x(), self.geometry().topRight().y()
+        lowerLeft = model.Point(x1, y1)
+        upperRight = model.Point(x2, y2)
+        self.roamer.advance(lowerLeft, upperRight)
         for line in self.roamer.lines:
             #
             # Just your normal HTML color codes. Look them up.
