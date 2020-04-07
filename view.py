@@ -4,16 +4,9 @@ from PyQt5 import QtGui, QtCore, QtWidgets, QtMultimedia
 
 class MainWidget(QtWidgets.QWidget):
 
-    def __init__(self, controller, parent=None):
+    def __init__(self, parent=None):
         super(MainWidget, self).__init__(parent)
 
-        #
-        # Pass in the controller because we'll need some information from it
-        # in order to draw whatever non-trivial thing we want to eventual draw
-        # in stead of those lines. In the past I've passed in the
-        # whole app, but I don't think I need all that (could be wrong).
-        #
-        self.controller = controller
 
         #
         # If you are going to use a timer, create one. Oh, and look up timers.
